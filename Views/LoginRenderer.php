@@ -1,4 +1,3 @@
-<?php include('index.php') ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,8 +8,10 @@
 <div>
   <h2>Login</h2>
 </div>
-<form action="login.php" method="post">
-  <?php include ('errors.php') ?>
+
+<form action="<?php
+                    echo getRelativeURL('index.php');
+              ?>/login" method="post">
 
   <div>
     <label>Username</label>
