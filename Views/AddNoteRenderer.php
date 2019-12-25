@@ -1,6 +1,4 @@
-<form action="<?php include 'PathService.php';
-                  echo getRelativeURL('index.php');
-              ?>/notes/add" method="post">
+<form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>/notes/add" method="post">
   <h2>Create Note</h2>
       <div>
         <label>Title</label>

@@ -9,9 +9,7 @@
   <h2>Login</h2>
 </div>
 
-<form action="<?php
-                    echo getRelativeURL('index.php');
-              ?>/login" method="post">
+<form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>/login" method="post">
 
   <div>
     <label>Username</label>

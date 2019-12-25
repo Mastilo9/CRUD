@@ -8,9 +8,7 @@
 <div>
   <h2>Register</h2>
 </div>
-<form action="<?php
-echo getRelativeURL('index.php');
-?>/register" method="post">
+<form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>/register" method="post">
   <div>
     <label>Username</label>
     <input type="text" name="username" required/>
