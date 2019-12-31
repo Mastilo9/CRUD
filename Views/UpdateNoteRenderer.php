@@ -1,4 +1,4 @@
-<form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>/notes/edit?edit=<?php echo $content ?>" method="post">
+<form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>/notes/edit?edit=<?php echo $content[0] ?>" method="post">
   <div>
     <h2>Update Note</h2>
     <div>

@@ -2,20 +2,18 @@
 
 namespace Controller;
 
-use Services\DatabaseService;
-use Services\SessionService;
-use Services\ViewService;
-
 class NoteController {
 
-  private $content;
   private $database;
   private $session;
+  private $view;
 
-  public function __construct(DatabaseService $database, SessionService $session) {
-    $this->database = $database;
-    $this->session = $session;
-    $this->content = "";
+  public function __construct() {
+    $this->database = func_get_arg(0);
+    $this->session = func_get_arg(1);
+    if (func_num_args() === 3) {
+      $this->view = func_get_arg(2);
+    }
   }
 
   public function list() : void {
@@ -27,24 +25,21 @@ class NoteController {
     } catch (\Exception $e) {
         echo "Error =>" . $e;
     }
-    //executeQuery mi vraca rezultate u nizu nizova, pa ako imam samo jedan povratni to mi je opet prvi clan niza koji je niz,
-    //da li treba zbog ovog da razdvajam, na fje gde ocekujem vise i na fje gde ocekujem jedan red iz tabele kao povratnu vrednost?
     $userId = $usersArray[0]['id'];
 
     $getNotesQuery = "SELECT * FROM diary where user_id = '$userId'";
     try {
       $diary = $this->database->executeQuery($getNotesQuery);
-      //da li je bolje stavljati ovako odvojena dva try i catch bloka ili je bolje da obmotam sve ovo u jedan?
-      //ovde sam razdvojio, dole sam obmotao u jedan
     } catch (\Exception $e) {
         echo "Error =>" . $e;
     }
 
-    $viewService = new ViewService();
     try {
-      $viewService->render($username, 'Views/UserInfoRenderer.php');
-      $viewService->renderContentArray($diary, 'Views/NotesRenderer.php');
-      $viewService->render('', 'Views/LogoutRenderer.php');
+      $newArray = array();
+      array_push($newArray, $username);
+      $this->view->render('Views/UserInfoRenderer.php',  $newArray);
+      $this->view->render('Views/NotesRenderer.php', $diary);
+      $this->view->render('Views/LogoutRenderer.php');
     } catch (\Exception $e) {
       echo "Error => ". $e;
     }
@@ -73,9 +68,7 @@ class NoteController {
     try {
     $username = $this->session->getSessionParam('username');
 
-    $viewService =  new ViewService();
-    $viewService->render("", "Views/AddNoteRenderer.php");
-
+      $this->view->render("Views/AddNoteRenderer.php");
 
       if (isset($_POST['save'])) {
         $errors = array();
@@ -103,7 +96,7 @@ class NoteController {
 
           header("location: {$_SERVER['SCRIPT_NAME']}/notes");
         }
-        $viewService->renderContentArray($errors, 'Views/ErrorsRenderer.php');
+        $this->view->render('Views/ErrorsRenderer.php', $errors);
       }elseif (!empty($errors)) {
         throw new \Exception("Content not sent!");
       }
@@ -118,8 +111,9 @@ class NoteController {
       if (isset($_GET['edit'])) {
         $idNote = $_GET['edit'];
 
-        $viewService = new ViewService();
-        $viewService->render($idNote, "Views/UpdateNoteRenderer.php");
+        $renderArray = array();
+        array_push($renderArray, $idNote);
+        $this->view->render("Views/UpdateNoteRenderer.php", $renderArray);
         if (isset($_POST['edit'])) {
           $errors = array();
 
@@ -139,7 +133,7 @@ class NoteController {
             header("location: {$_SERVER['SCRIPT_NAME']}/notes");
           }
 
-          $viewService->renderContentArray($errors, 'Views/ErrorsRenderer.php');
+          $this->view->render('Views/ErrorsRenderer.php', $errors);
         }elseif (!isset($_GET['edit']) && !empty($errors)) {
           throw new \Exception("Update data has not been set!");
         }

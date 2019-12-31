@@ -27,7 +27,11 @@ class DatabaseService
   }
 
   public function connect() {
-    $this->connection = mysqli_connect($this->host, $this->user, $this->password, $this->database) or die("could not connect to database");
+    $this->connection = mysqli_connect($this->host, $this->user, $this->password, $this->database);
+
+    if(!$this->connection) {
+      throw new \Exception("Connection not established!");
+    }
   }
 
   public function executeQuery(string $query) {

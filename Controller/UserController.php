@@ -1,18 +1,18 @@
 <?php
 namespace Controller;
 
-use Services\DatabaseService;
-use Services\SessionService;
-use Services\ViewService;
-
 class UserController {
 
   private $database;
   private $session;
+  private $view;
 
-  function __construct(DatabaseService $database, SessionService $session) {
-    $this->database = $database;
-    $this->session = $session;
+  public function __construct() {
+    $this->database = func_get_arg(0);
+    $this->session = func_get_arg(1);
+    if (func_num_args() === 3) {
+      $this->view = func_get_arg(2);
+    }
   }
 
   public function login() : void {
@@ -47,9 +47,9 @@ class UserController {
         //ovde ulazim samo ako nema gresaka u nizu errors(on predstavlja greske koje se mogu ispraviti)
         throw new \Exception("Login parameters not exists!");
       }
-      $viewService = new ViewService();
-      $viewService->renderContentArray($errors, 'Views/ErrorsRenderer.php');
-      $viewService->render("", 'Views/LoginRenderer.php');
+
+      $this->view->render('Views/ErrorsRenderer.php', $errors);
+      $this->view->render('Views/LoginRenderer.php');
     }catch (\Exception $e) {
       echo "Error => ". $e;
     }
@@ -104,9 +104,8 @@ class UserController {
       }elseif (!empty($errors)) {
         throw new \Exception("Data for registration never arrived!");
       }
-      $viewService = new ViewService();
-      $viewService->renderContentArray($errors, 'Views/ErrorsRenderer.php');
-      $viewService->render("", 'Views/RegistrationRenderer.php');
+      $this->view->render('Views/ErrorsRenderer.php', $errors);
+      $this->view->render('Views/RegistrationRenderer.php');
     } catch (\Exception $e) {
       echo "Error => ". $e;
     }
