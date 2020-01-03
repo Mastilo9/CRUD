@@ -56,7 +56,7 @@ try {
       break;
 
     case '/register':
-      $controller = new UserController($database,$session, new ViewService());
+      $controller = new UserController($database, $session, new ViewService());
       $controller->register();
       break;
   }

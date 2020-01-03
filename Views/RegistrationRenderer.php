@@ -10,23 +10,23 @@
 </div>
 <form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>/register" method="post">
   <div>
-    <label>Username</label>
-    <input type="text" name="username" required/>
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username" required/>
   </div>
 
   <div>
-    <label>E-mail</label>
-    <input type="email" name="email" required/>
+    <label for="email">E-mail</label>
+    <input type="email" name="email" id="email" required/>
   </div>
 
   <div>
-    <label>Password</label>
-    <input type="password" name="password1" required/>
+    <label for="password">Password</label>
+    <input type="password" name="password1" id="password" required/>
   </div>
 
   <div>
-    <label>Confirm Password</label>
-    <input type="password" name="password2" required/>
+    <label for="password2">Confirm Password</label>
+    <input type="password" name="password2" id="password2" required/>
   </div>
 
   <button type="submit" name="register">Register</button>

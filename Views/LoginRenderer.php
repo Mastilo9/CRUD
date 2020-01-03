@@ -12,13 +12,13 @@
 <form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>/login" method="post">
 
   <div>
-    <label>Username</label>
-    <input type="text" name="username" required/>
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username" required/>
   </div>
 
   <div>
-    <label>Password</label>
-    <input type="password" name="password" required/>
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" required/>
   </div>
 
   <button type="submit" name="login">Login</button>

@@ -35,8 +35,6 @@ class DatabaseService
   }
 
   public function executeQuery(string $query) {
-    //ako je promena baze, vraca true ako je uspesna, ako je dohvatanje onda vraca redove iz baze
-    //pa vrsim proveru ovako, u suprotnom vraca false
     if(!($results = mysqli_query($this->connection, $query))) {
       throw new \Exception('No data in database!');
     }
