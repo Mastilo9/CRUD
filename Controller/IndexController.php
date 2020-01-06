@@ -10,8 +10,12 @@ class IndexController
 {
   private $view;
 
-  public function __construct(ViewService $view){
-    $this->view = $view;
+//  public function __construct(ViewService $view){
+//    $this->view = $view;
+//  }
+
+  public function __construct(array $services){
+    $this->view = $services['view'];
   }
 
   public function home() : void {

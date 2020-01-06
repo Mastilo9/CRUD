@@ -7,12 +7,10 @@ class UserController {
   private $session;
   private $view;
 
-  public function __construct() {
-    $this->database = func_get_arg(0);
-    $this->session = func_get_arg(1);
-    if (func_num_args() === 3) {
-      $this->view = func_get_arg(2);
-    }
+  public function __construct(array $services) {
+    $this->database = $services['database'];
+    $this->session = $services['session'];
+    $this->view = $services['view'];
   }
 
   public function login() : void {
@@ -113,7 +111,6 @@ class UserController {
 
   public function logout() : void {
     $this->session->logout('username');
-
-    header("location: {$_SERVER['SCRIPT_NAME']}");
+    header("location: {$_SERVER['SCRIPT_NAME']}/");
   }
 }
